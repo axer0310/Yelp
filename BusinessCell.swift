@@ -28,7 +28,7 @@ class BusinessCell: UITableViewCell {
             businessName.text = business.name;
             poster.setImageWith(business.imageURL!);
             rating.setImageWith(business.ratingImageURL!);
-            reviews.text = "\(business.reviewCount)";
+            reviews.text = "\(business.reviewCount!) Reviews";
             distance.text = business.distance;
             address.text = business.address;
             catagory.text = business.categories;

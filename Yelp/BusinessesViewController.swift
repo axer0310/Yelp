@@ -20,7 +20,8 @@ UITableViewDelegate,UITableViewDataSource
         super.viewDidLoad()
         tableView.delegate = self;
         tableView.dataSource = self;
-        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 120
         Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             self.businesses = businesses
