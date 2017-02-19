@@ -9,20 +9,26 @@
 import UIKit
 
 class BusinessesViewController: UIViewController,
-UITableViewDelegate,UITableViewDataSource
+UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate
 {
     
     
     var businesses: [Business]!
-   
+    var filteredData = ""
+    
+    @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var tableView: UITableView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self;
         tableView.dataSource = self;
+        searchBar.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
-        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
+        self.navigationItem.titleView = searchBar;
+        Business.searchWithTerm(term: "\(filteredData)", completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             self.businesses = businesses
             self.tableView.reloadData();
@@ -73,11 +79,45 @@ UITableViewDelegate,UITableViewDataSource
         
        
     }
-        override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // When there is no text, filteredData is the same as the original data
+        // When user has entered text into the search box
+        // Use the filter method to iterate over all items in the data array
+        // For each item, return true if the item should be included and false if the
+        // item should NOT be included
+        /*
+        filteredData = searchText.isEmpty ? data : data.filter { (item: String) -> Bool in
+            // If dataItem matches the searchText, return true to include it
+            return item.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+        }
+        */
+        
+        filteredData = searchText;
+        
+        viewDidLoad()
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
+    {
+        searchBar.endEditing(true);
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        // Stop doing the search stuff
+        // and clear the text in the search bar
+        
+        
+        searchBar.text = ""
+        // Hide the cancel button
+        
+        searchBar.endEditing(true)
+        filteredData = ""
+        viewDidLoad()
+        // You could also change the position, frame etc of the searchBar
+    }
     /*
      // MARK: - Navigation
      
